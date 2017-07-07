@@ -1,0 +1,31 @@
+{
+    "name": "dbal-util/connection-ramsey-uuid",
+    "type": "library",
+    "description": "Trait and Methods to Query on a DBAL Connection using ramsey/uuid",
+    "keywords": ["dbal", "database", "persistence", "queryobject", "uuid"],
+    "homepage": "https://github.com/dbal-util/connection-ramsey-uuid",
+    "license": "MIT",
+    "authors": [
+        {"name": "Jean-Bernard Addor"}
+    ],
+    "require": {
+        "php": ">=5.4",
+        "dbal-util/connection": "0.1.x-dev@dev",
+        "ramsey/uuid": "^3.6"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+    },
+    "autoload": {
+        "psr-4": { "DbalUtil\\Connection\\Ramsey\\Uuid\\": "" }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    },
+    "archive": {
+        "exclude": ["!vendor", "tests", "*phpunit.xml", ".travis.yml", "build.xml", "build.properties", "composer.phar"]
+    }
+}
