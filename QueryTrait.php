@@ -2,6 +2,7 @@
 
 namespace DbalUtil\Connection\Ramsey\Uuid;
 
+use DbalUtil\Connection\ConnectionAbstractTrait;
 use Ramsey\Uuid\Uuid;
 
 
