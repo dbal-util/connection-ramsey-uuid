@@ -43,25 +43,26 @@ trait QueryTrait
         // dbal, doable in dbo
     }
 
-/*
-    public function insert_returning_uuid($table, array $insert) {
+    public function insert_returning_uuid($table, array $insert, $uuidKey='uuid') {
         // TODO: (SECURITY) assert $insert is an array DONE
         // TODO: id in parameter
         $conn = $this->getConnection();
         $qb = $conn->createQueryBuilder();
-        $insert['uuid'] = Uuid::uuid4();
+        $insert[$uuidKey] = Uuid::uuid4();
         //^ TODO if not set
-        return $conn->executeQuery(
-            'INSERT INTO ' . $table . ' (' . implode(',', array_keys($insert)) . ') ' .
-                'VALUES (' . implode(',', array_map([$qb, 'createPositionalParameter'], array_values($insert))) . ') RETURNING uuid',
-            array_values($insert) // TODO finger crossed that everything keeps in the same order.
-        )->fetchAll()[0]; // TODO ?
+        // return $conn->executeQuery(
+        //     'INSERT INTO ' . $table . ' (' . implode(',', array_keys($insert)) . ') ' .
+        //         'VALUES (' . implode(',', array_map([$qb, 'createPositionalParameter'], array_values($insert))) . ') RETURNING uuid',
+        //     array_values($insert) // TODO finger crossed that everything keeps in the same order.
+        // )->fetchAll()[0]; // TODO ?
+        $conn->insert($table, $insert);
+        return [$uuidKey => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
         // SECURITY TODO: Prepared statement DONE
         // TODO: be sure array_keys and array_values are in the same order.
-        // Postgres returning dependency could be removed
+        // Postgres returning dependency could be removed DONE
         // dbal, doable in dbo
     }
-*/
+
 /*
     public function insert_url_returning_uuid($table, array $insert) {
         // TODO: (SECURITY) assert $insert is an array DONE
