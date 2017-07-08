@@ -43,6 +43,7 @@ trait QueryTrait
         // dbal, doable in dbo
     }
 
+/*
     public function insert_returning_uuid($table, array $insert) {
         // TODO: (SECURITY) assert $insert is an array DONE
         // TODO: id in parameter
@@ -60,7 +61,8 @@ trait QueryTrait
         // Postgres returning dependency could be removed
         // dbal, doable in dbo
     }
-
+*/
+/*
     public function insert_url_returning_uuid($table, array $insert) {
         // TODO: (SECURITY) assert $insert is an array DONE
         // TODO: id in parameter
@@ -99,7 +101,8 @@ trait QueryTrait
         // Postgres returning dependency could be removed
         // dbal, doable in dbo
     }
-
+*/
+/*
     public function insert_default_values_returning_uuid($table) { /// TODO: id in parameter
 ///
         // return $conn->executeQuery('INSERT INTO ' . $table . ' DEFAULT VALUES RETURNING uuid')->fetchAll()[0]; // TODO ?
@@ -109,4 +112,5 @@ trait QueryTrait
         // Postgres returning dependency could be removed
         // dbal, doable in dbo
     }
+*/
 }
