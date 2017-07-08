@@ -15,6 +15,7 @@ trait QueryTrait
         $insert['uuid'] = Uuid::uuid4();
         $this->getConnection()->insert($table, $insert);
         // The construct with the array triggers a prepared statement
+        // dbal, not in dbo but easy
     }
 
     public function namespace_insert($table, array $insert, $namespace, $text, $uuid_field=NULL) { // TODO: (SECURITY) assert $insert is an array DONE
@@ -39,6 +40,7 @@ trait QueryTrait
         // SECURITY TODO: Prepared statement DONE
         // TODO: be sure array_keys and array_values are in the same order.
         // TODOUUID: DONE
+        // dbal, doable in dbo
     }
 
     public function insert_returning_uuid($table, array $insert) {
@@ -55,6 +57,8 @@ trait QueryTrait
         )->fetchAll()[0]; // TODO ?
         // SECURITY TODO: Prepared statement DONE
         // TODO: be sure array_keys and array_values are in the same order.
+        // Postgres returning dependency could be removed
+        // dbal, doable in dbo
     }
 
     public function insert_url_returning_uuid($table, array $insert) {
@@ -92,6 +96,8 @@ trait QueryTrait
         // SECURITY TODO: Prepared statement DONE
         // TODO: be sure array_keys and array_values are in the same order.
         // TODOUUID done
+        // Postgres returning dependency could be removed
+        // dbal, doable in dbo
     }
 
     public function insert_default_values_returning_uuid($table) { /// TODO: id in parameter
@@ -100,5 +106,7 @@ trait QueryTrait
         return $this->getConnection()->executeQuery('INSERT INTO ' . $table . ' (uuid) VALUES (?) RETURNING uuid', [Uuid::uuid4()])->fetchAll()[0]; // TODO ?
 ///
         // https://stackoverflow.com/questions/32048634/how-to-get-the-value-of-an-update-returning-query-in-postgresql-in-doctrine
+        // Postgres returning dependency could be removed
+        // dbal, doable in dbo
     }
 }
