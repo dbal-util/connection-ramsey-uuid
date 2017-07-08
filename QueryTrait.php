@@ -48,7 +48,8 @@ trait QueryTrait
         // TODO: id in parameter
         $conn = $this->getConnection();
         $qb = $conn->createQueryBuilder();
-        $insert[$uuidKey] = Uuid::uuid4();
+        $uuidValue = Uuid::uuid4();
+        $insert[$uuidKey] = $uuidValue;
         //^ TODO if not set
         // return $conn->executeQuery(
         //     'INSERT INTO ' . $table . ' (' . implode(',', array_keys($insert)) . ') ' .
