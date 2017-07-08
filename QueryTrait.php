@@ -102,15 +102,17 @@ trait QueryTrait
         // dbal, doable in dbo
     }
 */
-/*
+
     public function insert_default_values_returning_uuid($table) { /// TODO: id in parameter
 ///
         // return $conn->executeQuery('INSERT INTO ' . $table . ' DEFAULT VALUES RETURNING uuid')->fetchAll()[0]; // TODO ?
-        return $this->getConnection()->executeQuery('INSERT INTO ' . $table . ' (uuid) VALUES (?) RETURNING uuid', [Uuid::uuid4()])->fetchAll()[0]; // TODO ?
+        $uuid = Uuid::uuid4();
+        // $this->getConnection()->executeQuery('INSERT INTO ' . $table . ' (uuid) VALUES (?)', [$uuid])->fetchAll()[0]; // TODO ?
+        $this->getConnection()->insert($table, [$uuid]); // TODO: Error Management?
+        return $uuid;
 ///
         // https://stackoverflow.com/questions/32048634/how-to-get-the-value-of-an-update-returning-query-in-postgresql-in-doctrine
         // Postgres returning dependency could be removed
         // dbal, doable in dbo
     }
-*/
 }
