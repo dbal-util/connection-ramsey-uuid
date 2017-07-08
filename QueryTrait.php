@@ -103,13 +103,13 @@ trait QueryTrait
     }
 */
 
-    public function insert_default_values_returning_uuid($table) { /// TODO: id in parameter
+    public function insert_default_values_returning_uuid($table, $uuidKey='uuid') { /// TODO: id in parameter
 ///
         // return $conn->executeQuery('INSERT INTO ' . $table . ' DEFAULT VALUES RETURNING uuid')->fetchAll()[0]; // TODO ?
-        $uuid = Uuid::uuid4();
+        $uuidValue = Uuid::uuid4();
         // $this->getConnection()->executeQuery('INSERT INTO ' . $table . ' (uuid) VALUES (?)', [$uuid])->fetchAll()[0]; // TODO ?
-        $this->getConnection()->insert($table, [$uuid]); // TODO: Error Management?
-        return $uuid;
+        $this->getConnection()->insert($table, [$uuidKey => $uuidValue]); // TODO: Error Management?
+        return $uuidValue;
 ///
         // https://stackoverflow.com/questions/32048634/how-to-get-the-value-of-an-update-returning-query-in-postgresql-in-doctrine
         // Postgres returning dependency could be removed
