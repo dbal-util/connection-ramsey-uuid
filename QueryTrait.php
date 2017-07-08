@@ -109,7 +109,7 @@ trait QueryTrait
         $uuidValue = Uuid::uuid4();
         // $this->getConnection()->executeQuery('INSERT INTO ' . $table . ' (uuid) VALUES (?)', [$uuid])->fetchAll()[0]; // TODO ?
         $this->getConnection()->insert($table, [$uuidKey => $uuidValue]); // TODO: Error Management?
-        return $uuidValue;
+        return [$uuidKey => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
 ///
         // https://stackoverflow.com/questions/32048634/how-to-get-the-value-of-an-update-returning-query-in-postgresql-in-doctrine
         // Postgres returning dependency could be removed
