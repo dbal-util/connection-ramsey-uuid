@@ -11,9 +11,10 @@ trait QueryTrait
 
     public function insert_uuid4($table, array $insert, $idField = null)
     {
-    // TODO: (SECURITY) assert $insert is an array DONE
-    // TODO: This function name shoud be hidden from high level api and replaced by just "insert" to hide implementation details
-    //^ Humpf Default should may be return (uu)id
+        // TODO: (SECURITY) assert $insert is an array DONE
+        // TODO: This function name shoud be hidden from high level api and replaced by
+        // just "insert" to hide implementation details
+        //^ Humpf Default should may be return (uu)id
         $conn = $this->getConnection();
         if (null == $idField):
             // TODO: Try to take idField (and ~isUuid) first from function param,
