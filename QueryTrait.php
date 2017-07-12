@@ -10,24 +10,29 @@ trait QueryTrait
 {
     use ConnectionAbstractTrait;
 
-    public function insert_uuid4($table, array $insert) { // TODO: (SECURITY) assert $insert is an array DONE
+    public function insert_uuid4($table, array $insert, $idField=NULL) { // TODO: (SECURITY) assert $insert is an array DONE
         // TODO: This name shoud be hidden from high level api and replaced by just "insert" to hide implementation details
         //^ Humpf Default should may be return (uu)id
-        $insert['uuid'] = Uuid::uuid4();
-        $this->getConnection()->insert($table, $insert);
+        $conn = $this->getConnection();
+        if (NULL == $idField):
+            // TODO: Try to take idField (and ~isUuid) first from function param, then from to be done table object, then from connection, then defaut
+            $idField='uuid';
+        endif;
+        $insert[$idField] = Uuid::uuid4();
+        $conn->insert($table, $insert);
         // The construct with the array triggers a prepared statement
         // dbal, not in dbo but easy
     }
 
-    public function namespace_insert($table, array $insert, $namespace, $text, $uuid_field=NULL) { // TODO: (SECURITY) assert $insert is an array DONE
-        if (NULL == $uuid_field):
-            $uuid_field='uuid';
-        endif;
+    public function namespace_insert($table, array $insert, $namespace, $text, $idField=NULL) { // TODO: (SECURITY) assert $insert is an array DONE
         $conn = $this->getConnection();
+        if (NULL == $idField):
+            $idField='uuid';
+        endif;
         $qb = $conn->createQueryBuilder();
         // $conn->insert($table, $insert);
         // The construct with the array triggers a prepared statement
-        $conn->executeUpdate('INSERT INTO ' . $table . ' (' . $uuid_field . ', ' . implode(',', array_keys($insert)) . ') ' .
+        $conn->executeUpdate('INSERT INTO ' . $table . ' (' . $idField . ', ' . implode(',', array_keys($insert)) . ') ' .
             // "VALUES (uuid_generate_v5(" . $qb->createPositionalParameter($namespace) . "::uuid, " . $qb->createPositionalParameter($text) . ")," . 
             'VALUES (?,' . 
                 implode(',', array_map([$qb, 'createPositionalParameter'], array_values($insert))) . ')',
@@ -44,23 +49,23 @@ trait QueryTrait
         // dbal, doable in dbo
     }
 
-    public function insert_returning_uuid($table, array $insert, $uuidKey='uuid') {
+    public function insert_returning_uuid($table, array $insert, $idField='uuid') {
         $uuidValue = Uuid::uuid4();
-        $insert[$uuidKey] = $uuidValue;
+        $insert[$idField] = $uuidValue;
         $this->getConnection()->insert($table, $insert);
-        return [$uuidKey => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
+        return [$idField => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
     }
 
-    public function insert_url_returning_uuid($table, array $insert, $uuidKey='uuid') {
+    public function insert_url_returning_uuid($table, array $insert, $idField='uuid') {
         // "url" name could be a parameter
         $uuidValue = Uuid::uuid5('6ba7b811-9dad-11d1-80b4-00c04fd430c8', $insert['url']);
-        $insert[$uuidKey] = $uuidValue;
+        $insert[$idField] = $uuidValue;
         $this->getConnection()->insert($table, $insert);
-        return [$uuidKey => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
+        return [$idField => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
     }
 
-    public function insert_default_values_returning_uuid($table, $uuidKey='uuid') { /// TODO: id in parameter
-        $insert = [$uuidKey => Uuid::uuid4()];
+    public function insert_default_values_returning_uuid($table, $idField='uuid') { /// TODO: id in parameter
+        $insert = [$idField => Uuid::uuid4()];
         $this->getConnection()->insert($table, $insert);
         return $insert; // to return the same thing as PostgreSQL "RETURNING"
     }
