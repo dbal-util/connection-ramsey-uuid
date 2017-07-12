@@ -10,13 +10,15 @@ trait QueryTrait
     use ConnectionAbstractTrait;
 
     public function insert_uuid4($table, array $insert, $idField = null)
-    { // TODO: (SECURITY) assert $insert is an array DONE
-        // TODO: This name shoud be hidden from high level api and replaced by just "insert" to hide implementation details
-        //^ Humpf Default should may be return (uu)id
+    // TODO: (SECURITY) assert $insert is an array DONE
+    // TODO: This name shoud be hidden from high level api and replaced by just "insert" to hide implementation details
+    //^ Humpf Default should may be return (uu)id
+    {
         $conn = $this->getConnection();
-        if (NULL == $idField):
-            // TODO: Try to take idField (and ~isUuid) first from function param, then from to be done table object, then from connection, then defaut
-            $idField='uuid';
+        if (null == $idField):
+            // TODO: Try to take idField (and ~isUuid) first from function param, 
+            // then from to be done table object, then from connection, then defaut
+            $idField = 'uuid';
         endif;
         $insert[$idField] = Uuid::uuid4();
         $conn->insert($table, $insert);
@@ -27,20 +29,24 @@ trait QueryTrait
     public function namespace_insert($table, array $insert, $namespace, $text, $idField = null)
     { // TODO: (SECURITY) assert $insert is an array DONE
         $conn = $this->getConnection();
-        if (NULL == $idField):
-            $idField='uuid';
+        if (null == $idField):
+            $idField = 'uuid';
         endif;
         $qb = $conn->createQueryBuilder();
         // $conn->insert($table, $insert);
         // The construct with the array triggers a prepared statement
-        $conn->executeUpdate('INSERT INTO ' . $table . ' (' . $idField . ', ' . implode(',', array_keys($insert)) . ') ' .
-            // "VALUES (uuid_generate_v5(" . $qb->createPositionalParameter($namespace) . "::uuid, " . $qb->createPositionalParameter($text) . ")," . 
-            'VALUES (?,' . 
-                implode(',', array_map([$qb, 'createPositionalParameter'], array_values($insert))) . ')',
+        $conn->executeUpdate(
+            'INSERT INTO ' . $table . ' (' . $idField . ', ' . implode(',', array_keys($insert)) . ') ' .
+            // "VALUES (uuid_generate_v5(" . $qb->createPositionalParameter($namespace)
+            // . "::uuid, " . $qb->createPositionalParameter($text) . ")," .
+            'VALUES (?,' .
+            implode(',', array_map([$qb, 'createPositionalParameter'], array_values($insert))) . ')',
             array_merge([Uuid::uuid5($namespace, $text)], array_values($insert))
         ); // TODO finger crossed everything keeps in the same-right order
-        //^ The second argument of uuid_generate_v5 cannot be of uuid type, could it be of a binary type of the same size as uuid?
-        //^ $conn->getDatabasePlatform()->quoteStringLiteral($namespace) => Notice: Undefined property: Doctrine\DBAL\Connection::$getDatabasePlatform
+        //^ The second argument of uuid_generate_v5 cannot be of uuid type,
+        //^ could it be of a binary type of the same size as uuid?
+        //^ $conn->getDatabasePlatform()->quoteStringLiteral($namespace)
+        //^ => Notice: Undefined property: Doctrine\DBAL\Connection::$getDatabasePlatform
         //^ postgres$ psql --dbname=...
         //^ # CREATE EXTENSION "uuid-ossp";
         //^ https://packages.debian.org/en/postgresql-contrib
