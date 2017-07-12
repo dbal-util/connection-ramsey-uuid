@@ -10,13 +10,13 @@ trait QueryTrait
     use ConnectionAbstractTrait;
 
     public function insert_uuid4($table, array $insert, $idField = null)
-    // TODO: (SECURITY) assert $insert is an array DONE
-    // TODO: This name shoud be hidden from high level api and replaced by just "insert" to hide implementation details
-    //^ Humpf Default should may be return (uu)id
     {
+    // TODO: (SECURITY) assert $insert is an array DONE
+    // TODO: This function name shoud be hidden from high level api and replaced by just "insert" to hide implementation details
+    //^ Humpf Default should may be return (uu)id
         $conn = $this->getConnection();
         if (null == $idField):
-            // TODO: Try to take idField (and ~isUuid) first from function param, 
+            // TODO: Try to take idField (and ~isUuid) first from function param,
             // then from to be done table object, then from connection, then defaut
             $idField = 'uuid';
         endif;
@@ -58,7 +58,7 @@ trait QueryTrait
 
     public function insert_returning_uuid($table, array $insert, $idField = 'uuid')
     {
-        $uuidValue = Uuid::uuid4();
+        $uuidValue        = Uuid::uuid4();
         $insert[$idField] = $uuidValue;
         $this->getConnection()->insert($table, $insert);
         return [$idField => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
@@ -67,7 +67,7 @@ trait QueryTrait
     public function insert_url_returning_uuid($table, array $insert, $idField = 'uuid')
     {
         // "url" name could be a parameter
-        $uuidValue = Uuid::uuid5('6ba7b811-9dad-11d1-80b4-00c04fd430c8', $insert['url']);
+        $uuidValue        = Uuid::uuid5('6ba7b811-9dad-11d1-80b4-00c04fd430c8', $insert['url']);
         $insert[$idField] = $uuidValue;
         $this->getConnection()->insert($table, $insert);
         return [$idField => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
