@@ -5,12 +5,12 @@ namespace DbalUtil\Connection\Ramsey\Uuid;
 use DbalUtil\Connection\ConnectionAbstractTrait;
 use Ramsey\Uuid\Uuid;
 
-
 trait QueryTrait
 {
     use ConnectionAbstractTrait;
 
-    public function insert_uuid4($table, array $insert, $idField=NULL) { // TODO: (SECURITY) assert $insert is an array DONE
+    public function insert_uuid4($table, array $insert, $idField = null)
+    { // TODO: (SECURITY) assert $insert is an array DONE
         // TODO: This name shoud be hidden from high level api and replaced by just "insert" to hide implementation details
         //^ Humpf Default should may be return (uu)id
         $conn = $this->getConnection();
@@ -24,7 +24,8 @@ trait QueryTrait
         // dbal, not in dbo but easy
     }
 
-    public function namespace_insert($table, array $insert, $namespace, $text, $idField=NULL) { // TODO: (SECURITY) assert $insert is an array DONE
+    public function namespace_insert($table, array $insert, $namespace, $text, $idField = null)
+    { // TODO: (SECURITY) assert $insert is an array DONE
         $conn = $this->getConnection();
         if (NULL == $idField):
             $idField='uuid';
@@ -49,14 +50,16 @@ trait QueryTrait
         // dbal, doable in dbo
     }
 
-    public function insert_returning_uuid($table, array $insert, $idField='uuid') {
+    public function insert_returning_uuid($table, array $insert, $idField = 'uuid')
+    {
         $uuidValue = Uuid::uuid4();
         $insert[$idField] = $uuidValue;
         $this->getConnection()->insert($table, $insert);
         return [$idField => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
     }
 
-    public function insert_url_returning_uuid($table, array $insert, $idField='uuid') {
+    public function insert_url_returning_uuid($table, array $insert, $idField = 'uuid')
+    {
         // "url" name could be a parameter
         $uuidValue = Uuid::uuid5('6ba7b811-9dad-11d1-80b4-00c04fd430c8', $insert['url']);
         $insert[$idField] = $uuidValue;
@@ -64,7 +67,8 @@ trait QueryTrait
         return [$idField => $uuidValue]; // to return the same thing as PostgreSQL "RETURNING"
     }
 
-    public function insert_default_values_returning_uuid($table, $idField='uuid') { /// TODO: id in parameter
+    public function insert_default_values_returning_uuid($table, $idField = 'uuid')
+    { /// TODO: id in parameter
         $insert = [$idField => Uuid::uuid4()];
         $this->getConnection()->insert($table, $insert);
         return $insert; // to return the same thing as PostgreSQL "RETURNING"
