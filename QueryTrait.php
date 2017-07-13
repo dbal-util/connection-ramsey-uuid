@@ -16,7 +16,7 @@ trait QueryTrait
         // just "insert" to hide implementation details
         //^ Humpf Default should may be return (uu)id
         $conn = $this->getConnection();
-        if (null == $idField):
+        if (null == $idField) :
             // TODO: Try to take idField (and ~isUuid) first from function param,
             // then from to be done table object, then from connection, then defaut
             $idField = 'uuid';
@@ -28,9 +28,9 @@ trait QueryTrait
     }
 
     public function namespace_insert($table, array $insert, $namespace, $text, $idField = null)
-    { // TODO: (SECURITY) assert $insert is an array DONE
+    {
         $conn = $this->getConnection();
-        if (null == $idField):
+        if (null == $idField) :
             $idField = 'uuid';
         endif;
         $qb = $conn->createQueryBuilder();
@@ -55,6 +55,7 @@ trait QueryTrait
         // TODO: be sure array_keys and array_values are in the same order.
         // TODOUUID: DONE
         // dbal, doable in dbo
+        // TODO: (SECURITY) assert $insert is an array DONE, TODO: test it!
     }
 
     public function insert_returning_uuid($table, array $insert, $idField = 'uuid')
@@ -75,7 +76,7 @@ trait QueryTrait
     }
 
     public function insert_default_values_returning_uuid($table, $idField = 'uuid')
-    { /// TODO: id in parameter
+    {
         $insert = [$idField => Uuid::uuid4()];
         $this->getConnection()->insert($table, $insert);
         return $insert; // to return the same thing as PostgreSQL "RETURNING"
