@@ -1,5 +1,5 @@
 {
-    "name": "dbal-util/connection-ramsey-uuid",
+    "name": "doctrine-dbal-util/connection-ramsey-uuid",
     "type": "library",
     "description": "Trait and Methods to Query on a DBAL Connection using ramsey/uuid",
     "keywords": ["dbal", "database", "persistence", "queryobject", "uuid", "snowyowl"],
@@ -10,7 +10,7 @@
     ],
     "require": {
         "php": ">=5.4",
-        "dbal-util/connection": "0.1.x-dev@dev",
+        "doctrine-dbal-util/connection": "0.1.x-dev@dev",
         "ramsey/uuid": "^3.6"
     },
     "require-dev": {
@@ -19,7 +19,7 @@
     "suggest": {
     },
     "autoload": {
-        "psr-4": { "DbalUtil\\Connection\\Ramsey\\Uuid\\": "" }
+        "psr-4": { "DoctrineDbalUtil\\Connection\\Ramsey\\Uuid\\": "" }
     },
     "extra": {
         "branch-alias": {
