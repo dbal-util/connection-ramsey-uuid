@@ -3,7 +3,7 @@
     "type": "library",
     "description": "Trait and Methods to Query on a DBAL Connection using ramsey/uuid",
     "keywords": ["dbal", "database", "persistence", "queryobject", "uuid", "snowyowl"],
-    "homepage": "https://github.com/dbal-util/connection-ramsey-uuid",
+    "homepage": "https://github.com/doctrine-dbal-util/connection-ramsey-uuid",
     "license": "MIT",
     "authors": [
         {"name": "Jean-Bernard Addor"}
