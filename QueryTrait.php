@@ -1,8 +1,8 @@
 <?php
 
-namespace DbalUtil\Connection\Ramsey\Uuid;
+namespace DoctrineDbalUtil\Connection\Ramsey\Uuid;
 
-use DbalUtil\Connection\ConnectionAbstractTrait;
+use DoctrineDbalUtil\Connection\ConnectionAbstractTrait;
 use Ramsey\Uuid\Uuid;
 
 trait QueryTrait
